@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Season Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Color Season Analysis</h1>
+            <p class="subtitle">Discover your personal color season based on your skin, hair, and eyes.</p>
+        </header>
+
+        <main>
+            <section class="color-form-section">
+                <div class="form-container">
+                    <h2>Your Colors</h2>
+                    <form id="colorForm">
+                        <div class="form-group">
+                            <label for="skinColor">Skin Tone</label>
+                            <div class="color-input-group">
+                                <input type="color" id="skinColor" value="#F5D0B9" required>
+                                <input type="text" id="skinHex" value="#F5D0B9" maxlength="7" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hairColor">Hair Color</label>
+                            <div class="color-input-group">
+                                <input type="color" id="hairColor" value="#4A3A2F" required>
+                                <input type="text" id="hairHex" value="#4A3A2F" maxlength="7" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="eyeColor">Eye Color</label>
+                            <div class="color-input-group">
+                                <input type="color" id="eyeColor" value="#5C6E91" required>
+                                <input type="text" id="eyeHex" value="#5C6E91" maxlength="7" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Analyze My Colors</button>
+                    </form>
+                </div>
+
+                <div class="color-preview">
+                    <h3>Your Color Palette</h3>
+                    <div class="color-swatches">
+                        <div class="swatch" id="skinSwatch" style="background-color: #F5D0B9;"></div>
+                        <div class="swatch" id="hairSwatch" style="background-color: #4A3A2F;"></div>
+                        <div class="swatch" id="eyeSwatch" style="background-color: #5C6E91;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-container">
+                    <h2>Your Season</h2>
+                    <div class="result-card" id="resultCard">
+                        <div class="result-header">
+                            <h3 id="seasonName">Loading...</h3>
+                            <div class="season-badge" id="seasonBadge"></div>
+                        </div>
+                        <div class="result-details">
+                            <p id="dominantTrait"></p>
+                            <p id="reasoning"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
+</body>
+</html>

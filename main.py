@@ -1,16 +1,27 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
-# from helpers.profile_builder import build_profile
 from helpers.season_analyzer import analyze_color_season
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
 import colorsys
 from typing import Dict, Any
-from helpers.colora import nearest_color  # we will create this module below
+from helpers.colora import nearest_color
 from helpers.color_analysis import analyze_color
-load_dotenv()  
+from pathlib import Path
+
+# Load environment variables
+load_dotenv()
+
+# Initialize FastAPI app
 app = FastAPI()
+
+# Set up static files and templates
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
+templates = Jinja2Templates(directory=Path(__file__).parent / "templates")
 
 
 
@@ -55,9 +66,14 @@ async def analyze_color_season_api(data: SeasonRequest):
         raise HTTPException(status_code=500, detail=str(e))
     
     
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
 @app.get("/color")
-def get_color_details(hex_code: str):
+async def get_color_details(hex_code: str):
     closest = nearest_color(hex_code)
+    return closest
     analysis = analyze_color(closest["closest_hex"])
 
     return {
